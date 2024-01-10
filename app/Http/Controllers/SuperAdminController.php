@@ -9,7 +9,7 @@ class SuperAdminController extends Controller
 {
     public function dashboard() {
         $this->adminAuthCheck();
-        return view('admin.layout.master');
+        return view('admin.dashboard');
     }
     public function logout() {
         Session::flush();
