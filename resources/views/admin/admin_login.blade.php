@@ -32,7 +32,7 @@
 </head>
 <body>
     <div id="login">
-        <h3 class="text-center text-white pt-5">Admin Login form</h3>
+        <h3 class="text-center text-white pt-5">Admin Login </h3>
 
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
