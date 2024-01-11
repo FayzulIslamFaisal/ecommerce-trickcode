@@ -21,3 +21,5 @@ Route::get('/logout',[SuperAdminController::class,'logout'])->name('logout');
 
 // Category Controller
 Route::resource('/categories/', CategoryController::class);
+Route::get('/cat-status/{id}',[CategoryController::class,'changeActiveStatus'])->name('cat-status');
+

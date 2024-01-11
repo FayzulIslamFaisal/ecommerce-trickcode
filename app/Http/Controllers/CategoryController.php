@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategorRequest;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Session;
+
 
 class CategoryController extends Controller
 {
@@ -13,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -32,9 +37,25 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategorRequest $request)
     {
-        //
+        $request->validated();
+        $categories              = new Category();
+        $categories->name        = $request->name;
+        $categories->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName           = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('category'), $imageName);
+            $categories->image   =  $imageName;
+        }
+
+        $categories->save();
+        Session::flash('message', 'Category successfully created!');
+
+        return redirect()->back();
+
     }
 
     /**
@@ -81,4 +102,21 @@ class CategoryController extends Controller
     {
         //
     }
+
+
+    public function changeActiveStatus($id) {
+        $categories   = Category::findOrfail($id);
+        $status       = $categories->status;
+   
+        if ($status=='1') {
+            $status = 0;
+        }else{
+            $status = 1;
+        }
+        $categories->save();
+        Session::flash('message', 'Category Status Change successfully!');
+        return redirect()->back();
+    }
+
+
 }
